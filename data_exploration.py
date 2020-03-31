@@ -40,3 +40,5 @@ plt.bar(ids, cnt_labels)
 plt.xlabel('Znaki')
 labels = [dict_signs[id_labels[idki]] for idki in id_labels]
 plt.xticks(ids, labels, rotation = 'vertical')
+plt.title('Znaki drogowe - liczba wystąpień')
+plt.show()
