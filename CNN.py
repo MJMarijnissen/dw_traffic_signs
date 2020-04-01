@@ -20,3 +20,18 @@ X_train, y_train, X_test, y_test, dict_signs = read_data()
 if y_train.ndim == 1: y_train = to_categorical(y_train)
 if y_test.ndim == 1: y_test = to_categorical(y_test)
 
+#%%
+input_shape = X_train.shape[1:]
+num_classes = y_train.shape[1]
+
+model = Sequential([
+    Conv2D(filters = 64, kernel_size=(3,3), activation = 'relu', input_shape=input_shape),
+    Flatten(),
+    Dense(num_classes, activation = 'softmax'),
+    ])
+
+model.summary()
+model.compile(loss = 'categorical_crossentropy', optimizer='Adam', metrics = ['accuracy'])
+model.fit(X_train, y_train)
+
+#%%
