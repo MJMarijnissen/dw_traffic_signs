@@ -10,11 +10,35 @@ import matplotlib.pyplot as plt
 from collections import Counter
 
 #%%
-train = pd.read_pickle('data/train.p')
 
-X_train, y_train = train['features'], train['labels']
-signs = pd.read_csv('data/signnames.csv')
-dict_signs = signs.to_dict()["b"]
+def read_data():
+    """
+    function reads data, returns 
+
+    Returns
+    -------
+    X_train : numpy.ndarray
+        train set input.
+    y_train : numpy.ndarray
+        train set outpu.
+    X_test : numpy.ndarray
+        test set input.
+    y_test : numpy.ndarray
+        test set output.
+    dict_signs : DICT
+        description of signs.
+
+    """
+    train = pd.read_pickle('data/train.p')
+    test = pd.read_pickle('data/test.p')
+    
+    X_train, y_train = train['features'], train['labels']
+    X_test, y_test = test['features'], train['labels']
+    signs = pd.read_csv('data/signnames.csv')
+    dict_signs = signs.to_dict()["b"]
+    return X_train, y_train, X_test, y_test, dict_signs
+
+X_train, y_train, X_test, y_test, dict_signs = read_data()
 
 #%%
 plt.imshow(X_train[10000])
