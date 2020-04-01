@@ -41,28 +41,53 @@ def read_data():
 X_train, y_train, X_test, y_test, dict_signs = read_data()
 
 #%%
-plt.imshow(X_train[10000])
+def plot_all_signs():
+    """
+    Plots all signs in dataset
 
-for id_sign in dict_signs.keys():
-    given_signs = X_train[y_train == id_sign]
-    plt.figure(figsize=(15,5))
-    for i in range(9):
-        plt.subplot('19{0}'.format(i+1))
-        plt.imshow(given_signs[i])
-        plt.axis("off")
-        
-plt.tight_layout()
-plt.show()
+    Returns
+    -------
+    None.
+
+    """
+    plt.imshow(X_train[10000])
+    
+    for id_sign in dict_signs.keys():
+        given_signs = X_train[y_train == id_sign]
+        plt.figure(figsize=(15,5))
+        for i in range(9):
+            plt.subplot('19{0}'.format(i+1))
+            plt.imshow(given_signs[i])
+            plt.axis("off")
+            
+    plt.tight_layout()
+    plt.show()
+    pass
 #%%%
 
-cnt = Counter(y_train).most_common()
-id_labels, cnt_labels = zip(*cnt)
-ids = range(len(id_labels))
+def plot_labels_count():
+    """
+    plots bar chart of the ammout each sign is in dataset
 
-plt.figure(figsize=(15,5))
-plt.bar(ids, cnt_labels)
-plt.xlabel('Znaki')
-labels = [dict_signs[id_labels[idki]] for idki in id_labels]
-plt.xticks(ids, labels, rotation = 'vertical')
-plt.title('Znaki drogowe - liczba wystąpień')
-plt.show()
+    Returns
+    -------
+    None.
+
+    """
+    cnt = Counter(y_train).most_common()
+    id_labels, cnt_labels = zip(*cnt)
+    ids = range(len(id_labels))
+    
+    plt.figure(figsize=(15,5))
+    plt.bar(ids, cnt_labels)
+    plt.xlabel('Znaki')
+    labels = [dict_signs[id_labels[idki]] for idki in id_labels]
+    plt.xticks(ids, labels, rotation = 'vertical')
+    plt.title('Znaki drogowe - liczba wystąpień')
+    plt.show()
+    pass
+
+if __name__ == "__main__":
+    read_data()
+    plot_all_signs()
+    plot_labels_count()
