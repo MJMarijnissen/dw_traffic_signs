@@ -7,6 +7,8 @@ Created on Wed Apr  1 09:22:10 2020
 #%%
 import pandas as pd
 import numpy as np
+import os
+import datetime
 
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
@@ -30,12 +32,25 @@ def get_cnn_v1(input_shape, num_classes):
         Flatten(),
         Dense(num_classes, activation = 'softmax'),
         ])
+    return model
 
-def train_model(model, X_train, y_train):
-    model.summary()
+def train_model(model, X_train, y_train, params_fit={}):
     model.compile(loss = 'categorical_crossentropy', optimizer='Adam', metrics = ['accuracy'])
-    model.fit(X_train, y_train)
+    
+    logdir = os.path.join("logs", datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+    tensorboard_callback = tf.keras.callbacks.TensorBoard(logdir, histogram_freq = 1)
+    
+    model.fit(
+        X_train, 
+        y_train,
+        batch_size = params_fit.get('batch_size', 128),
+        epochs = params_fit.get('epochs', 5),
+        verbose = params_fit.get('verbose', 1),
+        validation_data = params_fit.get('validation_data', (X_train, y_train)),
+        callbacks = [tensorboard_callback]
+    )
+    return logdir
 
 #%%
 model = get_cnn_v1(input_shape, num_classes)
-train_model(model, X_train, y_train)
+logdir = train_model(model, X_train, y_train)
